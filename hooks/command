@@ -8,11 +8,17 @@ env | sort
 echo " COMIENZA LA EJECUCION "
 echo " ------------- "
 
-eval "${BUILDKITE_BUILD_CHECKOUT_PATH}/${BUILDKITE_COMMAND}"
-
+pushd ${BUILDKITE_BUILD_CHECKOUT_PATH}
+eval "${BUILDKITE_COMMAND}"
 exit_code=$?
+popd
 
-echo " ------------- "
+echo " ------0------- "
+echo "$BUILDKITE_PLUGIN_POST_POST_0_WHEN"
+echo "$BUILDKITE_PLUGIN_POST_POST_0_STEPS"
+echo " ------1------ "
+echo "$BUILDKITE_PLUGIN_POST_POST_1_WHEN"
+echo "$BUILDKITE_PLUGIN_POST_POST_1_STEPS"
 
 if [ $exit_code -ne 0 ]; then
   echo "Ha petado"
