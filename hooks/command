@@ -8,9 +8,9 @@ env | sort
 echo " COMIENZA LA EJECUCION "
 echo " ------------- "
 
-eval ${BUILDKITE_COMMAND}
+eval "${BUILDKITE_BUILD_CHECKOUT_PATH}/${BUILDKITE_COMMAND}"
 
-$exit_code=$?
+exit_code=$?
 
 echo " ------------- "
 
