@@ -1,0 +1,5 @@
+name: Post
+description: Runs build steps after success or failures of other jobs
+author: https://github.com/jmendiara
+requirements:
+  - docker

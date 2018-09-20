@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+set +e
+
+env
+
+eval ${BUILDKITE_COMMAND}
+
+if [ $? -eq 0 ]; then
+  echo "Ha petado"
+  exit $EXIT_CODE
+fi
+
+echo "Palante"
+
