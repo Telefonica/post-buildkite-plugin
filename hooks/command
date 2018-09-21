@@ -3,7 +3,9 @@
 set -uo pipefail
 set +e
 
-env | sort
+env | sort > plo.txt
+
+cat plo.txt
 
 echo " ------------- "
 
