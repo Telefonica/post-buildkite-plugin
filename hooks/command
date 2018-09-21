@@ -19,7 +19,6 @@ echo " ------------- "
 echo " COMIENZA LA EJECUCION "
 echo " ------------- "
 
-pushd ${BUILDKITE_BUILD_CHECKOUT_PATH}
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
 popd
