@@ -1,4 +1,2 @@
-BUILDKITE_PLUGIN_POST_POST_0_STEPS=- label: "CACOTA GORDA"
+BUILDKITE_PLUGIN_POST_POST_0_STEPS=- label: "Ha ido bien"\n  command: .buildkite/steps/_success.sh\n  concurrency: 3\n  concurrency_group: "concu/success"
 BUILDKITE_PLUGIN_POST_POST_0_WHEN=success
-BUILDKITE_PLUGIN_POST_POST_1_STEPS=- label: ":fireworks: Undeploy Core"
-BUILDKITE_PLUGIN_POST_POST_1_WHEN=failure

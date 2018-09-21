@@ -5,6 +5,16 @@ set +e
 
 env | sort
 
+echo " ------------- "
+
+pwd
+
+echo " ------------- "
+
+env | docker run -i -v `pwd`/test.js:/test.js: node:10.11.0-alpine /test.js
+
+echo " ------------- "
+
 echo " COMIENZA LA EJECUCION "
 echo " ------------- "
 
