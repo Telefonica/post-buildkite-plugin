@@ -1,8 +1,9 @@
+#!/usr/bin/env node
 
 const yaml = require('js-yaml');
 
 main()
-  .then(ret => console.log(ret))
+  .then(ret => console.log(JSON.stringify(ret, null, 2)))
   .catch(err => { console.error(err); process.exit(1); })
 
 async function main() {
@@ -19,14 +20,14 @@ async function buildMap(input) {
 
 function getSections(lines) {
   const sections = getArray(lines, 'BUILDKITE_PLUGIN_POST_POST_');
-  return sections.map(section => {
-    const when = getWhen(section);
-    const steps = getSteps(section);
-    console.log(when, steps);
-
-    return section;
-
-  });
+  return sections
+    .map(section => {
+      const when = getWhen(section);
+      const pipeline = getPipeline(section);
+      return {
+        [when]: pipeline
+      };
+    });
 }
 
 function getWhen(lines) {
@@ -36,11 +37,12 @@ function getWhen(lines) {
   return targets[0].value;
 }
 
-function getSteps(lines) {
+function getPipeline(lines) {
   let targets = lines.map(line => parseLine(line))
-    .filter(obj => obj.key === 'steps');
+    .filter(obj => obj.key === 'pipeline');
 
-  return yaml.safeLoad(targets[0].value);
+  const yml = targets[0].value.replace(/\\n/g, '\n');
+  return yaml.safeLoad(yml);
 }
 
 function getArray(lines, prefix) {
@@ -51,14 +53,6 @@ function getArray(lines, prefix) {
   return toArray(cleanLines, '_');
 }
 
-function toMap(lines) {
-  return lines
-    .map(line => parseLine(line))
-    .reduce((memo, obj) => Object.assign(memo, {
-      [obj.key]: obj.value,
-    }), {});
-}
-
 function parseLine(line) {
   let index = line.indexOf('=');
   return {
@@ -66,7 +60,6 @@ function parseLine(line) {
     value: line.substring(index + 1)
   }
 }
-
 
 function toArray(lines, prefix) {
   return lines.reduce((memo, line) => {
