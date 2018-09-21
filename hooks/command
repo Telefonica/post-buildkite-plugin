@@ -12,7 +12,7 @@ ls
 
 echo " ------------- "
 
-env | docker run -i  docker.io/jmendiara/post-buildkite-plugin@sha256:15c23ba5d1bfa354c836de6b2c868f3946ae4820e07d5567d4726cd2df89c797
+env | docker run -i  docker.io/jmendiara/post-buildkite-plugin@sha256:3b83d78d7850505bca11f84051040dbe32870731304a9aaca887a07bef170f1d
 
 echo " ------------- "
 echo " COMIENZA LA EJECUCION "
