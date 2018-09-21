@@ -3,3 +3,18 @@ description: Runs build steps after success or failures of other jobs
 author: https://github.com/jmendiara
 requirements:
   - docker
+configuration:
+  properties:
+    post:
+      type: array
+      items:
+        type: object
+        properties:
+          when: string
+          pipeline: string
+      required:
+        - when
+        - pipeline
+  required:
+    - post
+  additionalProperties: false
