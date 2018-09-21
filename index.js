@@ -8,6 +8,7 @@ main()
 
 async function main() {
   const input = await getStdin();
+  console.log(JSON.stringify(input, null,2))
   const map = await buildMap(input);
   return map;
 }
