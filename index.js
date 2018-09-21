@@ -41,7 +41,8 @@ function getPipeline(lines) {
   let targets = lines.map(line => parseLine(line))
     .filter(obj => obj.key === 'pipeline');
 
-  const yml = targets[0].value.replace(/\\n/g, '\n');
+  // const yml = targets[0].value.replace(/\\n/g, '\n');
+  const yml = targets[0].value;
   return yaml.safeLoad(yml);
 }
 
