@@ -18,7 +18,14 @@ ls
 
 echo " ------------- "
 
-printenv | docker run -i  docker.io/jmendiara/post-buildkite-plugin@sha256:2b49568d46dba9f6cbc1fd6dea24823dcb68ecbc4db293c325ad6bc962ca1af4
+docker run --rm \
+  -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
+  -e BUILDKITE_PLUGIN_POST_POST_0_PIPELINE \
+  -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
+  -e BUILDKITE_PLUGIN_POST_POST_1_PIPELINE \
+  -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
+  -e BUILDKITE_PLUGIN_POST_POST_2_PIPELINE \
+  docker.io/jmendiara/post-buildkite-plugin@sha256:4062636d46f64dcbefa08b23cfe33574038386c0965b3104e6e2f1ae474d4a21
 
 echo " ------------- "
 echo " COMIENZA LA EJECUCION "

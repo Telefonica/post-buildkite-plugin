@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
 main()
-  .then(ret => console.log(ret))
+  .then(ret => console.log(JSON.stringify(ret, null, 2)))
   .catch(err => { console.error(err); process.exit(1); })
 
 async function main() {
-  const input = await getStdin();
-  return input;
+  return process.env;
 }
 
 // From https://github.com/sindresorhus/get-stdin

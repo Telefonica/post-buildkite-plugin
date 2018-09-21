@@ -6,4 +6,4 @@ RUN npm ci
 
 COPY . .
 
-ENTRYPOINT ["/usr/app/index.js"]
+ENTRYPOINT ["/usr/app/test.js"]
