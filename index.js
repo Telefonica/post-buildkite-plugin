@@ -8,13 +8,13 @@ main()
 
 async function main() {
   const input = await getStdin();
-  console.log(JSON.stringify(input, null,2))
   const map = await buildMap(input);
   return map;
 }
 
 async function buildMap(input) {
   const lines = input.split('\n');
+  console.log(JSON.stringify(lines, null, 2))
   const sections = getSections(lines);
   return sections;
 }
