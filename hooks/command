@@ -3,7 +3,7 @@
 set -uo pipefail
 set +e
 
-env | sort > plo.txt
+printenv | sort > plo.txt
 
 cat plo.txt
 
@@ -14,7 +14,7 @@ ls
 
 echo " ------------- "
 
-env | docker run -i  docker.io/jmendiara/post-buildkite-plugin@sha256:2b49568d46dba9f6cbc1fd6dea24823dcb68ecbc4db293c325ad6bc962ca1af4
+printenv | docker run -i  docker.io/jmendiara/post-buildkite-plugin@sha256:2b49568d46dba9f6cbc1fd6dea24823dcb68ecbc4db293c325ad6bc962ca1af4
 
 echo " ------------- "
 echo " COMIENZA LA EJECUCION "
