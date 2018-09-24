@@ -43,7 +43,7 @@ function generatePipeline(pipeline) {
     const preWaitSteps = steps.slice(0, index);
     newSteps = wrapIntoPluginStep(steps.slice(index + 1), preWaitSteps[0])
 
-    pipeline.steps = newSteps;
+    pipeline.steps = [ newSteps ];
 
   }
   return pipeline;

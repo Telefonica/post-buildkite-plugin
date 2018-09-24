@@ -19,15 +19,15 @@ post:
 
     const pipeline = plugin.getPipeline('success', steps);
     expect(pipeline).toEqual(`steps:
-  label: step1
-  command: step1.sh
-  plugins:
-    '${NAME}':
-      post:
-        - when: success
-          steps: |
-            - label: step2
-              command: step2.sh
+  - label: step1
+    command: step1.sh
+    plugins:
+      '${NAME}':
+        post:
+          - when: success
+            steps: |
+              - label: step2
+                command: step2.sh
 `
     );
   });
@@ -48,17 +48,17 @@ post:
 
     const pipeline = plugin.getPipeline('success', steps);
     expect(pipeline).toEqual(`steps:
-  label: step1
-  command: step1.sh
-  plugins:
-    '${NAME}':
-      post:
-        - when: success
-          steps: |
-            - label: step2
-              command: step2.sh
-            - label: step3
-              command: step3.sh
+  - label: step1
+    command: step1.sh
+    plugins:
+      '${NAME}':
+        post:
+          - when: success
+            steps: |
+              - label: step2
+                command: step2.sh
+              - label: step3
+                command: step3.sh
 `
     );
   });
@@ -81,22 +81,22 @@ post:
 
     const pipeline = plugin.getPipeline('success', steps);
     expect(pipeline).toEqual(`steps:
-  label: step1
-  command: step1.sh
-  plugins:
-    '${NAME}':
-      post:
-        - when: success
-          steps: |
-            label: step2
-            command: step2.sh
-            plugins:
-              '${NAME}':
-                post:
-                  - when: success
-                    steps: |
-                      - label: step3
-                        command: step3.sh
+  - label: step1
+    command: step1.sh
+    plugins:
+      '${NAME}':
+        post:
+          - when: success
+            steps: |
+              - label: step2
+                command: step2.sh
+                plugins:
+                  '${NAME}':
+                    post:
+                      - when: success
+                        steps: |
+                          - label: step3
+                            command: step3.sh
 `
     );
   });
