@@ -17,9 +17,11 @@ function createPipeline() {
     $when
 }
 
+echo "Comienza la ejecución del plugin"
+echo "---------"
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
-
+echo "---------"
 echo "Ya hemos salido de aqui, con un $exit_code"
 
 if [ $exit_code -ne 0 ]; then
@@ -29,6 +31,8 @@ if [ $exit_code -ne 0 ]; then
   createPipeline "failure" | buildkite-agent pipeline upload
 else
   echo "Ha ido bien!"
+  plo=$(createPipeline "failure")
+  echo "$plo"
   createPipeline "success" | buildkite-agent pipeline upload
 fi
 
