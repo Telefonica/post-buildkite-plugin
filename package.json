@@ -1,13 +1,16 @@
 {
   "name": "post-buildkite-plugin",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Post jobs recovery buildkite plugin (WIP)",
   "main": "index.js",
+  "bin": {
+    "pipeline": "bin/pipeline"
+  },
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +24,8 @@
   "homepage": "https://github.com/jmendiara/post-buildkite-plugin#readme",
   "dependencies": {
     "js-yaml": "^3.12.0"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
   }
 }

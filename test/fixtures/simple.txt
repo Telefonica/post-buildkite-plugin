@@ -1,2 +1,0 @@
-BUILDKITE_PLUGIN_POST_POST_0_PIPELINE=steps:\n  - label: "Ha ido bien"\n    command: .buildkite/steps/_success.sh\n    concurrency: 3\n    concurrency_group: "concu/success"
-BUILDKITE_PLUGIN_POST_POST_0_WHEN=success

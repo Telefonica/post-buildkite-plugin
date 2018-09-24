@@ -1,102 +1,113 @@
 #!/usr/bin/env node
 
 const yaml = require('js-yaml');
+const pkg = require('./package.json')
 
-main()
-  .then(ret => console.log(JSON.stringify(ret, null, 2)))
-  .catch(err => { console.error(err); process.exit(1); })
+const PREFIX = 'BUILDKITE_PLUGIN_POST_POST';
+const NAME = `jmendiara/post#${pkg.version}`
 
-async function main() {
-  const input = await getStdin();
-  const map = await buildMap(input);
-  return map;
+module.exports = {
+  PREFIX,
+  NAME,
+  getPipeline,
 }
 
-async function buildMap(input) {
-  const lines = input.split('\n');
-  console.log(JSON.stringify(lines, null, 2))
-  const sections = getSections(lines);
-  return sections;
+function getPipeline(when, steps) {
+  const POSSIBLE_WHENS = ['success', 'failure', 'always'];
+  if (!POSSIBLE_WHENS.includes(when)) {
+    throw new Error(`"when: ${when}" is not recognized. Available when are "${POSSIBLE_WHENS}"`);
+  }
+
+  const stepsMap = rebuildSteps(steps);
+  const originalPipeline = stepsMap[when];
+
+  if (!originalPipeline) {
+    return;
+  }
+
+  const pipeline = generatePipeline(originalPipeline);
+  return yaml.safeDump(pipeline);
 }
 
-function getSections(lines) {
-  const sections = getArray(lines, 'BUILDKITE_PLUGIN_POST_POST_');
-  return sections
-    .map(section => {
-      const when = getWhen(section);
-      const pipeline = getPipeline(section);
-      return {
-        [when]: pipeline
-      };
-    });
+function generatePipeline(pipeline) {
+  const { steps } = pipeline;
+  const hasWait = hasWaits(steps);
+  if (!hasWait) {
+    return pipeline;
+  } else {
+    let index = getWaitIndex(steps);
+    let newSteps;
+    if (index !== 1) {
+      throw new Error('Unsupported post layout. There must be only one step before the wait one');
+    }
+    const preWaitSteps = steps.slice(0, index);
+    newSteps = wrapIntoPluginStep(steps.slice(index + 1), preWaitSteps[0])
+
+    pipeline.steps = newSteps;
+
+  }
+  return pipeline;
 }
 
-function getWhen(lines) {
-  let targets = lines.map(line => parseLine(line))
-    .filter(obj => obj.key === 'when');
+function wrapIntoPluginStep(steps, dest) {
+  let newSteps;
+  if (!hasWaits(steps)) {
+    newSteps = steps;
+  } else {
+    const pipeline = generatePipeline({ steps });
+    newSteps = pipeline.steps;
+  }
 
-  return targets[0].value;
+  return Object.assign({}, dest, {
+    plugins: {
+      [`${NAME}`]: {
+        post: [{
+          when: 'success',
+          steps: yaml.safeDump(newSteps),
+        }]
+      }
+    }
+  });
 }
 
-function getPipeline(lines) {
-  let targets = lines.map(line => parseLine(line))
-    .filter(obj => obj.key === 'pipeline');
-
-  // const yml = targets[0].value.replace(/\\n/g, '\n');
-  const yml = targets[0].value;
-  return yaml.safeLoad(yml);
+function rebuildSteps(dirtySteps) {
+  let steps = {};
+  for (let i = 0, step; step = getStageAtIndex(i, dirtySteps); i++) {
+    Object.assign(steps, step);
+  }
+  return steps;
 }
 
-function getArray(lines, prefix) {
-  const cleanLines = lines
-    .filter(line => line.startsWith(prefix))
-    .map(line => line.replace(prefix, ''))
+function getStageAtIndex(index, map) {
+  const whenIndex = `${PREFIX}_${index}_WHEN`;
+  const stepsIndex = `${PREFIX}_${index}_STEPS`;
 
-  return toArray(cleanLines, '_');
-}
-
-function parseLine(line) {
-  let index = line.indexOf('=');
-  return {
-    key: line.substring(0, index).toLowerCase(),
-    value: line.substring(index + 1)
+  if (map[whenIndex] && map[stepsIndex]) {
+    return {
+      [map[whenIndex]]: {
+        steps: yaml.safeLoad(map[stepsIndex])
+      }
+    }
+  } else if (map[whenIndex] || map[stepsIndex]) {
+    throw new Error('"post" object must include both "when" and "steps" properties');
   }
 }
 
-function toArray(lines, prefix) {
-  return lines.reduce((memo, line) => {
-    let index = line.indexOf(prefix);
-    let itemIndex = parseInt(line.substring(0, index));
-    let itemValue = line.substring(index + 1);
-
-    const section = memo[itemIndex] || [];
-    section.push(itemValue);
-    memo[itemIndex] = section;
-    return memo;
-  }, [])
+function hasWaits(steps) {
+  return steps.some(step => isWaitStep(step));
 }
 
-// From https://github.com/sindresorhus/get-stdin
-// MIT LICENSED
-function getStdin() {
-  return new Promise(resolve => {
-    const stdin = process.stdin;
-    let ret = '';
+function getWaitIndex(steps) {
+  return steps.findIndex(step => isWaitStep(step));
+}
+function isWaitStep(step) {
+  return isSuccessWait(step) || isAlwaysWait(step);
+}
 
-    if (stdin.isTTY) {
-      return resolve(ret);
-    }
+function isSuccessWait(step) {
+  return step === 'wait';
+}
 
-    stdin.setEncoding('utf8');
-
-    stdin.on('readable', () => {
-      let chunk;
-
-      while ((chunk = stdin.read())) {
-        ret += chunk;
-      }
-    });
-
-    stdin.on('end', () => resolve(ret));
-  });
+function isAlwaysWait(step) {
+  return 'wait' in step;
 }

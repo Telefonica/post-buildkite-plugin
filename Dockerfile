@@ -6,4 +6,4 @@ RUN npm ci
 
 COPY . .
 
-ENTRYPOINT ["/usr/app/test.js"]
+ENTRYPOINT ["/usr/app/bin/pipeline"]

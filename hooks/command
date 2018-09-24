@@ -3,41 +3,27 @@
 set -uo pipefail
 set +e
 
+function createPipeline() {
+  local when=$1
 
-
-
-
-env | sort > plo.txt
-
-cat plo.txt
-
-echo " ------------- "
-
-pwd
-ls
-
-echo " ------------- "
-
-docker run --rm \
-  -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
-  -e BUILDKITE_PLUGIN_POST_POST_0_PIPELINE \
-  -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
-  -e BUILDKITE_PLUGIN_POST_POST_1_PIPELINE \
-  -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
-  -e BUILDKITE_PLUGIN_POST_POST_2_PIPELINE \
-  docker.io/jmendiara/post-buildkite-plugin@sha256:4062636d46f64dcbefa08b23cfe33574038386c0965b3104e6e2f1ae474d4a21
-
-echo " ------------- "
-echo " COMIENZA LA EJECUCION "
-echo " ------------- "
+  docker run --rm \
+    -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
+    -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
+    -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
+    -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
+    -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
+    -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
+    docker.io/jmendiara/post-buildkite-plugin@sha256:858d20220f907b4bf209c92c204e00362c9155e3d87c0da60eb9899a918c8540 \
+    $when
+}
 
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
 
 if [ $exit_code -ne 0 ]; then
-  echo "Ha petado"
-  exit $exit_code
+  createPipeline "failure" | buildkite-agent pipeline upload
+else
+  createPipeline "success" | buildkite-agent pipeline upload
 fi
 
-echo "Palante"
-
+exit $exit_code
