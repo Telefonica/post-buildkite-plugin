@@ -20,9 +20,13 @@ function createPipeline() {
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
 
+echo "Ya hemos salido de aqui, con un $exit_code"
+
 if [ $exit_code -ne 0 ]; then
+  echo "Algo ha ido mal"
   createPipeline "failure" | buildkite-agent pipeline upload
 else
+  echo "Ha ido bien!"
   createPipeline "success" | buildkite-agent pipeline upload
 fi
 
