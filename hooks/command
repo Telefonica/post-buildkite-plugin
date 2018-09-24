@@ -24,6 +24,8 @@ echo "Ya hemos salido de aqui, con un $exit_code"
 
 if [ $exit_code -ne 0 ]; then
   echo "Algo ha ido mal"
+  plo=$(createPipeline "failure")
+  echo $plo
   createPipeline "failure" | buildkite-agent pipeline upload
 else
   echo "Ha ido bien!"
