@@ -13,7 +13,7 @@ function createPipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin@sha256:481d3813ce0e99c1b6c52a3d08ddec29627097f6bc49417cbe10ef1d4f9d51c1 \
+    docker.io/jmendiara/post-buildkite-plugin@0.0.1
     $when
 }
 
