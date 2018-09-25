@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 set -uo pipefail
+set +e
 
-function createPipeline() {
+function get_pipeline() {
   local when=$1
 
-  set +e
   docker run --rm \
     -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
@@ -13,30 +13,28 @@ function createPipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.6 \
+    docker.io/jmendiara/post-buildkite-plugin:0.0.7 \
     $when
-
-  set -e
 }
-set +e
 echo "Comienza la ejecución del plugin"
 echo "---------"
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
 echo "---------"
 echo "Ya hemos salido de aqui, con un $exit_code"
-set -e
 
-if [ $exit_code -ne 0 ]; then
-  echo "Algo ha ido mal"
-  plo=$(createPipeline "failure")
-  echo "$plo"
-  createPipeline "failure" | buildkite-agent pipeline upload
-else
+if [ $exit_code -eq 0 ]; then
   echo "Ha ido bien!"
-  plo=$(createPipeline "success")
-  echo "$plo"
-  createPipeline "success" | buildkite-agent pipeline upload
+  post_type="success"
+else
+  echo "Algo ha ido mal"
+  post_type="failure"
+fi
+
+pipeline=$(get_pipeline $post_type)
+pipeline_code==$?
+if [ $exit_code -eq 0 ]; then
+  echo "$pipeline" | buildkite-agent pipeline upload
 fi
 
 exit $exit_code
