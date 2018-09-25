@@ -12,14 +12,13 @@ post:
       - label: step2
         command: step2.sh
 `);
-    const pipeline = plugin.getPipeline('success', steps);
+    const pipeline = plugin.pipeline('success', steps);
     expect(pipeline).toEqual(`steps:
   - label: step1
     command: step1.sh
   - label: step2
     command: step2.sh
-`
-    );
+`);
   });
 
   it('should build a failure', () => {
@@ -32,13 +31,12 @@ post:
       - label: step2
         command: step2.sh
 `);
-    const pipeline = plugin.getPipeline('failure', steps);
+    const pipeline = plugin.pipeline('failure', steps);
     expect(pipeline).toEqual(`steps:
   - label: step1
     command: step1.sh
   - label: step2
     command: step2.sh
-`
-    );
+`);
   });
 });

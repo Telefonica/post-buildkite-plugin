@@ -11,19 +11,21 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "lint": "docker run -it --rm -v `pwd`:/plugin buildkite/plugin-linter --id jmendiara/post",
     "precommit": "pretty-quick --staged"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmendiara/post-buildkite-plugin.git"
+    "url": "git+https://github.com/telefonica/post-buildkite-plugin.git"
   },
-  "author": "Javier Mendiara <jmendiara@gmail.com>",
-  "license": "ISC",
+  "author": {
+    "name": "Javier Mendiara Cañardo",
+    "email": "javier.mendiaracanardo@telefonica.com"
+  },
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/jmendiara/post-buildkite-plugin/issues"
+    "url": "https://github.com/telefonica/post-buildkite-plugin/issues"
   },
-  "homepage": "https://github.com/jmendiara/post-buildkite-plugin#readme",
+  "homepage": "https://github.com/telefonica/post-buildkite-plugin#readme",
   "dependencies": {
     "js-yaml": "^3.12.0"
   },
