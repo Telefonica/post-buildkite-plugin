@@ -13,28 +13,23 @@ function get_pipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.9 \
-    $when
+    docker.io/jmendiara/post-buildkite-plugin:0.0.10 \
+    $when > /dev/null 2>&1
 }
-echo "Comienza la ejecución del plugin"
-echo "---------"
+echo "--- ${BUILDKITE_COMMAND}"
 eval "${BUILDKITE_COMMAND}"
 exit_code=$?
-echo "---------"
-echo "Ya hemos salido de aqui, con un $exit_code"
 
 if [ $exit_code -eq 0 ]; then
-  echo "Ha ido bien!"
   post_type="success"
 else
-  echo "Algo ha ido mal"
   post_type="failure"
 fi
 
 pipeline=$(get_pipeline $post_type)
 pipeline_code=$?
 if [ $pipeline_code -eq 0 ]; then
-  echo "$pipeline" | buildkite-agent pipeline upload
+  echo "$pipeline" | buildkite-agent pipeline upload  > /dev/null 2>&1
 fi
 
 exit $exit_code
