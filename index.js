@@ -13,7 +13,7 @@ module.exports = {
 }
 
 function getPipeline(when, steps) {
-  const POSSIBLE_WHENS = ['success', 'failure', 'always'];
+  const POSSIBLE_WHENS = ['success', 'failure'];
   if (!POSSIBLE_WHENS.includes(when)) {
     throw new Error(`"when: ${when}" is not recognized. Available when are "${POSSIBLE_WHENS}"`);
   }
@@ -22,7 +22,7 @@ function getPipeline(when, steps) {
   const originalPipeline = stepsMap[when];
 
   if (!originalPipeline) {
-    return;
+    throw new Error(`There is not a "${when}" post defined`);
   }
 
   const pipeline = generatePipeline(originalPipeline);

@@ -41,24 +41,4 @@ post:
 `
     );
   });
-
-  it('should build an always', () => {
-    const steps = utils.getSteps(`
-post:
-  - when: always
-    steps: |
-      - label: step1
-        command: step1.sh
-      - label: step2
-        command: step2.sh
-`);
-    const pipeline = plugin.getPipeline('always', steps);
-    expect(pipeline).toEqual(`steps:
-  - label: step1
-    command: step1.sh
-  - label: step2
-    command: step2.sh
-`
-    );
-  });
 });

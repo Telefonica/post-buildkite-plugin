@@ -8,6 +8,6 @@ try {
   const pipeline = plugin.getPipeline(when, steps);
   pipeline && console.log(pipeline);
 } catch (err) {
-  console.error(err);
+  console.error(err.message);
   process.exit(1);
 }

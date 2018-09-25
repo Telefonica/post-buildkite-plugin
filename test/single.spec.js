@@ -33,20 +33,4 @@ post:
     command: step1.sh
 `);
   });
-
-  it('should build an always', () => {
-    const steps = utils.getSteps(`
-post:
-  - when: always
-    steps: |
-      - label: step1
-        command: step1.sh
-`);
-
-    const pipeline = plugin.getPipeline('always', steps);
-    expect(pipeline).toEqual(`steps:
-  - label: step1
-    command: step1.sh
-`);
-  });
 });
