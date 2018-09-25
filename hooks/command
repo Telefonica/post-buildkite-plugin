@@ -13,7 +13,7 @@ function get_pipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.8 \
+    docker.io/jmendiara/post-buildkite-plugin:0.0.9 \
     $when
 }
 echo "Comienza la ejecución del plugin"
@@ -32,7 +32,7 @@ else
 fi
 
 pipeline=$(get_pipeline $post_type)
-pipeline_code==$?
+pipeline_code=$?
 if [ $pipeline_code -eq 0 ]; then
   echo "$pipeline" | buildkite-agent pipeline upload
 fi
