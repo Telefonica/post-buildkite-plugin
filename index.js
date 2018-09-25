@@ -22,7 +22,7 @@ function getPipeline(when, steps) {
   const originalPipeline = stepsMap[when];
 
   if (!originalPipeline) {
-    throw new Error(`There is not a "${when}" post defined`);
+    return;
   }
 
   const pipeline = generatePipeline(originalPipeline);
