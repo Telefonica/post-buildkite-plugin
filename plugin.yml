@@ -10,11 +10,16 @@ configuration:
       items:
         type: object
         properties:
-          when: string
-          pipeline: string
+          when:
+            type: string
+            enum:
+              - success
+              - failure
+          steps:
+            type: string
       required:
         - when
-        - pipeline
+        - steps
   required:
     - post
   additionalProperties: false
