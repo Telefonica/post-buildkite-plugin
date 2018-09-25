@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -uo pipefail
-set +e
 
 function createPipeline() {
   local when=$1
@@ -16,13 +15,14 @@ function createPipeline() {
     docker.io/jmendiara/post-buildkite-plugin:0.0.3 \
     $when
 }
-
+set +e
 echo "Comienza la ejecución del plugin"
 echo "---------"
-eval "`${BUILDKITE_COMMAND}`"
+eval "${BUILDKITE_COMMAND}"
 exit_code=$?
 echo "---------"
 echo "Ya hemos salido de aqui, con un $exit_code"
+set -e
 
 if [ $exit_code -ne 0 ]; then
   echo "Algo ha ido mal"
