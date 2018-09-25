@@ -5,6 +5,7 @@ set -uo pipefail
 function createPipeline() {
   local when=$1
 
+  set +e
   docker run --rm \
     -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
@@ -12,8 +13,10 @@ function createPipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.5 \
+    docker.io/jmendiara/post-buildkite-plugin:0.0.6 \
     $when
+
+  set -e
 }
 set +e
 echo "Comienza la ejecución del plugin"
