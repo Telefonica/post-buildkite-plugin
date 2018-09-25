@@ -11,10 +11,8 @@ function get_pipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
-    -e BUILDKITE_PLUGIN_POST_POST_2_WHEN \
-    -e BUILDKITE_PLUGIN_POST_POST_2_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.10 \
-    $when > /dev/null 2>&1
+    docker.io/jmendiara/post-buildkite-plugin:0.0.11 \
+    $when
 }
 echo "--- ${BUILDKITE_COMMAND}"
 eval "${BUILDKITE_COMMAND}"
