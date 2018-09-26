@@ -51,28 +51,6 @@ pipeline (with `wait`) after failures.
 
 ## Current limitations
 
-- Only shell scripts can be commands managed by the plugin.
-
-This **does not** work
-
-```yml
-steps:
-  - command: |
-      echo "test"
-      test.sh
-    plugins:
-      jmendiara/post#1.0.0: ...
-```
-
-Use this instead
-
-```yml
-steps:
-  - command: my_command.sh
-    plugins:
-      jmendiara/post#1.0.0: ...
-```
-
 - Parallel steps in the steps sections are not allowed when using waits
 
 This **does not** work

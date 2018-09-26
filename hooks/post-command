@@ -10,7 +10,7 @@ function get_pipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.13 \
+    docker.io/jmendiara/post-buildkite-plugin:0.0.14 \
     $when
 }
 
@@ -25,5 +25,3 @@ pipeline=$(get_pipeline $post_type)
 if [ -n "$pipeline" ]; then
   echo "$pipeline" | buildkite-agent pipeline upload  > /dev/null 2>&1
 fi
-
-exit $exit_code

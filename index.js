@@ -183,7 +183,9 @@ function getStageAtIndex(index, config) {
 }
 
 function areSupportedSteps(steps) {
-  return steps.every(step => isWaitStep(step) || isCommandStep(step));
+  return steps.every(
+    step => (isWaitStep(step) || isCommandStep(step) || isPluginStep()) && !isParallelStep(step) && !isWaitFailureStep()
+  );
 }
 
 function hasWait(steps) {
@@ -198,6 +200,18 @@ function isWaitStep(step) {
   return step === 'wait';
 }
 
+function isWaitFailureStep(step) {
+  return 'wait' in step;
+}
+
 function isCommandStep(step) {
   return 'command' in step;
+}
+
+function isPluginStep(step) {
+  return !isCommandStep() && 'plugins' in step;
+}
+
+function isParallelStep(step) {
+  return 'parallelism' in step;
 }
