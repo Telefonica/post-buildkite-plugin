@@ -132,18 +132,18 @@ function wrapIntoPluginStep(steps, dest) {
     newSteps = pipeline.steps;
   }
 
-  return Object.assign({}, dest, {
-    plugins: {
-      [`${NAME}`]: {
-        post: [
-          {
-            when: 'success',
-            steps: yaml.safeDump(newSteps),
-          },
-        ],
-      },
+  dest.plugins = dest.plugins || {};
+  Object.assign(dest.plugins, {
+    [`${NAME}`]: {
+      post: [
+        {
+          when: 'success',
+          steps: yaml.safeDump(newSteps),
+        },
+      ],
     },
   });
+  return dest;
 }
 
 /**

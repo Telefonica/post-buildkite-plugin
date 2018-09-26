@@ -5,6 +5,9 @@ set -euo pipefail
 function get_pipeline() {
   local when=$1
 
+  # To dont spit to stdout pulling logs
+  docker pull docker.io/jmendiara/post-buildkite-plugin:0.0.18 > /dev/null
+
   docker run --rm \
     -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \

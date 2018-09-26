@@ -98,4 +98,30 @@ steps:
                             command: step3.sh
 `);
   });
+
+  it('should accept plugin jobs', () => {
+    const steps = utils.getSteps(`
+post:
+  - when: failure
+    steps: |
+      - plugins:
+          whatever: plugin
+      - wait
+      - label: step1
+        command: step1.sh
+`);
+
+    const pipeline = plugin.pipeline('failure', steps);
+    expect(pipeline).toEqual(`
+steps:
+  - plugins:
+      whatever: plugin
+      '${NAME}':
+        post:
+          - when: success
+            steps: |
+              - label: step1
+                command: step1.sh
+`);
+  });
 });
