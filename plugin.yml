@@ -1,0 +1,25 @@
+name: Post
+description: Runs build steps after success or failures of other jobs
+author: https://github.com/jmendiara
+requirements:
+  - docker
+configuration:
+  properties:
+    post:
+      type: array
+      items:
+        type: object
+        properties:
+          when:
+            type: string
+            enum:
+              - success
+              - failure
+          steps:
+            type: string
+      required:
+        - when
+        - steps
+  required:
+    - post
+  additionalProperties: false

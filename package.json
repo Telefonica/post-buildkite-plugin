@@ -1,0 +1,43 @@
+{
+  "name": "post-buildkite-plugin",
+  "version": "0.0.20",
+  "description": "Post jobs recovery buildkite plugin",
+  "main": "index.js",
+  "bin": {
+    "pipeline": "bin/pipeline"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "precommit": "pretty-quick --staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/telefonica/post-buildkite-plugin.git"
+  },
+  "author": {
+    "name": "Javier Mendiara Cañardo",
+    "email": "javier.mendiaracanardo@telefonica.com"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/telefonica/post-buildkite-plugin/issues"
+  },
+  "homepage": "https://github.com/telefonica/post-buildkite-plugin#readme",
+  "dependencies": {
+    "js-yaml": "^3.12.0"
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.15",
+    "jest": "^23.6.0",
+    "prettier": "1.14.3",
+    "pretty-quick": "^1.7.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 120
+  }
+}

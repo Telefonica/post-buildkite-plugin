@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+function get_pipeline() {
+  local when=$1
+
+  # To dont spit to stdout pulling logs
+  docker pull docker.io/telefonica/post-buildkite-plugin:0.1.0 > /dev/null
+
+  docker run --rm \
+    -e BUILDKITE_PLUGIN_POST_POST_0_WHEN \
+    -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
+    -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
+    -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
+    docker.io/telefonica/post-buildkite-plugin:0.1.0 \
+    $when
+}
+
+if [ $BUILDKITE_COMMAND_EXIT_STATUS -eq 0 ]; then
+  post_type="success"
+else
+  post_type="failure"
+fi
+
+pipeline=$(get_pipeline $post_type)
+
+if [ -n "$pipeline" ]; then
+  echo "Uploading new pipeline"
+  echo "$pipeline"
+  echo "$pipeline" | buildkite-agent pipeline upload  > /dev/null 2>&1
+fi
