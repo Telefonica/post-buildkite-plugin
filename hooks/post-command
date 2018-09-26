@@ -10,7 +10,7 @@ function get_pipeline() {
     -e BUILDKITE_PLUGIN_POST_POST_0_STEPS \
     -e BUILDKITE_PLUGIN_POST_POST_1_WHEN \
     -e BUILDKITE_PLUGIN_POST_POST_1_STEPS \
-    docker.io/jmendiara/post-buildkite-plugin:0.0.16 \
+    docker.io/jmendiara/post-buildkite-plugin:0.0.18 \
     $when
 }
 
