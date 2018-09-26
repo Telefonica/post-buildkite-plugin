@@ -13,7 +13,8 @@ post:
         command: step2.sh
 `);
     const pipeline = plugin.pipeline('success', steps);
-    expect(pipeline).toEqual(`steps:
+    expect(pipeline).toEqual(`
+steps:
   - label: step1
     command: step1.sh
   - label: step2
@@ -32,7 +33,8 @@ post:
         command: step2.sh
 `);
     const pipeline = plugin.pipeline('failure', steps);
-    expect(pipeline).toEqual(`steps:
+    expect(pipeline).toEqual(`
+steps:
   - label: step1
     command: step1.sh
   - label: step2

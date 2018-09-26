@@ -48,7 +48,9 @@ function pipeline(when, selializedConfig) {
   }
 
   const pipeline = transformPipeline(originalPipeline);
-  return yaml.safeDump(pipeline);
+  // add a breakline to make nice tests
+  // TODO: Manage initial breakline in test, not in code
+  return '\n' + yaml.safeDump(pipeline);
 }
 
 /**
