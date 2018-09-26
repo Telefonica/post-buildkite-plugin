@@ -22,7 +22,7 @@ The following pipeline will execute `annotate.sh`, wait for completion, and then
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#1.0.0:
+      jmendiara/post#1.0.0:
         post:
           - when: failure
             # steps is a string, note the `|`
@@ -61,7 +61,7 @@ steps:
       echo "test"
       test.sh
     plugins:
-      telefonica/post#1.0.0: ...
+      jmendiara/post#1.0.0: ...
 ```
 
 Use this instead
@@ -70,7 +70,7 @@ Use this instead
 steps:
   - command: my_command.sh
     plugins:
-      telefonica/post#1.0.0: ...
+      jmendiara/post#1.0.0: ...
 ```
 
 - Parallel steps in the steps sections are not allowed when using waits
@@ -81,7 +81,7 @@ This **does not** work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#1.0.0:
+      jmendiara/post#1.0.0:
         post:
           - when: failure
             steps: |
@@ -99,7 +99,7 @@ This work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#1.0.0:
+      jmendiara/post#1.0.0:
         post:
           - when: failure
             steps: |

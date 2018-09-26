@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/telefonica/post-buildkite-plugin.git"
+    "url": "git+https://github.com/jmendiara/post-buildkite-plugin.git"
   },
   "author": {
     "name": "Javier Mendiara Cañardo",
@@ -23,9 +23,9 @@
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/telefonica/post-buildkite-plugin/issues"
+    "url": "https://github.com/jmendiara/post-buildkite-plugin/issues"
   },
-  "homepage": "https://github.com/telefonica/post-buildkite-plugin#readme",
+  "homepage": "https://github.com/jmendiara/post-buildkite-plugin#readme",
   "dependencies": {
     "js-yaml": "^3.12.0"
   },

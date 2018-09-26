@@ -19,7 +19,7 @@ const yaml = require('js-yaml');
 const pkg = require('./package.json');
 
 const PREFIX = 'BUILDKITE_PLUGIN_POST_POST';
-const NAME = `telefonica/post#${pkg.version}`;
+const NAME = `jmendiara/post#${pkg.version}`;
 
 module.exports = {
   PREFIX,
@@ -81,7 +81,7 @@ function pipeline(when, selializedConfig) {
  * - label: step1
  *   command: step1.sh
  *   plugins:
- *     telefonica/post#1.0.0:
+ *     jmendiara/post#1.0.0:
  *       post:
  *         - when: success
  *           steps: |
