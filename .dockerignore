@@ -7,3 +7,5 @@ docker-compose.yml
 .*
 project
 coverage
+test
+jest.config.js
