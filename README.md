@@ -48,7 +48,8 @@ pipeline (with `wait`) after failures.
 
 ## Current limitations
 
-- Parallel steps in the steps sections are not allowed when using waits
+- Only `wait`, `command` and `plugins` are available as steps in the post section
+- Parallel steps in the steps sections are not allowed when using `wait`
 
 This **does not** work
 
@@ -82,8 +83,6 @@ steps:
               - command: email.sh
               - command: clenaup.sh
 ```
-
-- Only `wait`, `command` and `plugins` are available as steps in the post section
 
 ## License
 
