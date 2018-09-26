@@ -1,18 +1,15 @@
-# post-buildkite-plugin
-
-Post jobs recovery buildkite plugin (WIP)
-
 # Post buildkite plugin
 
 A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for
 running pipeline **serial** steps conditionally when a step has succeed
 or failed
 
-The post section defines one or more additional steps that are run upon
-the completion of a command. post can support any of of the following
-post-condition blocks: `failure`, `success`. These condition blocks
-allow the execution of serial steps inside each condition depending on the
-completion status of the step.
+The `post` section defines one or more additional steps that are run upon
+the completion of a command.
+
+`post` can support any of of the following post-condition blocks: `failure`, `success`.
+These condition blocks allow the execution of serial steps inside each condition
+depending on the completion status of the step.
 
 ## Example
 
@@ -38,8 +35,8 @@ steps:
 
 ## How it works
 
-The plugin tracks the `command` exit code, and starts adding
-one step at a time dinamically using `buildkite-agent pipeline upload`
+The plugin evaluates the `command` exit code, (via `post-command` hook) and starts
+adding one step after another dinamically using `buildkite-agent pipeline upload`
 
 When adding a pipeline dynamically, it's executed by buildkite
 directly after the step that added it.
@@ -86,7 +83,7 @@ steps:
               - command: clenaup.sh
 ```
 
-- Only `wait` and `command` are available as steps in the post section
+- Only `wait`, `command` and `plugins` are available as steps in the post section
 
 ## License
 
