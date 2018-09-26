@@ -33,4 +33,20 @@ post:
     command: step1.sh
 `);
   });
+
+  it('should accept plugin jobs', () => {
+    const steps = utils.getSteps(`
+post:
+  - when: failure
+    steps: |
+      - plugins:
+          whatever: plugin
+`);
+
+    const pipeline = plugin.pipeline('failure', steps);
+    expect(pipeline).toEqual(`steps:
+  - plugins:
+      whatever: plugin
+`);
+  });
 });

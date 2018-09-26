@@ -20,6 +20,7 @@ const pkg = require('./package.json');
 
 const PREFIX = 'BUILDKITE_PLUGIN_POST_POST';
 const NAME = `jmendiara/post#${pkg.version}`;
+const POSSIBLE_WHENS = ['success', 'failure'];
 
 module.exports = {
   PREFIX,
@@ -36,13 +37,9 @@ module.exports = {
  * buildkite serializes plugin configuration at runtime
  */
 function pipeline(when, selializedConfig) {
-  const POSSIBLE_WHENS = ['success', 'failure'];
-
-  if (!POSSIBLE_WHENS.includes(when)) {
-    throw new Error(`"when: ${when}" is not recognized. Available when are "${POSSIBLE_WHENS}"`);
-  }
-
   const stepsMap = rebuildConfig(selializedConfig);
+
+  assertWhen(when);
   const originalPipeline = stepsMap[when];
 
   // no pipeline has been defined for this type of
@@ -164,6 +161,9 @@ function rebuildConfig(config) {
   for (let i = 0, step; (step = getStageAtIndex(i, config)); i++) {
     Object.assign(steps, step);
   }
+  if (Object.keys(steps).length === 0) {
+    throw new Error('Missing plugin config');
+  }
   return steps;
 }
 
@@ -171,13 +171,17 @@ function getStageAtIndex(index, config) {
   const whenIndex = `${PREFIX}_${index}_WHEN`;
   const stepsIndex = `${PREFIX}_${index}_STEPS`;
 
-  if (config[whenIndex] && config[stepsIndex]) {
+  const when = config[whenIndex];
+  const steps = config[stepsIndex];
+
+  if (when && steps) {
+    assertWhen(when);
     return {
-      [config[whenIndex]]: {
-        steps: yaml.safeLoad(config[stepsIndex]),
+      [when]: {
+        steps: yaml.safeLoad(steps),
       },
     };
-  } else if (config[whenIndex] || config[stepsIndex]) {
+  } else if (when || steps) {
     throw new Error('"post" object must include both "when" and "steps" properties');
   }
 }
@@ -189,6 +193,12 @@ function areSupportedSteps(steps) {
       !isParallelStep(step) &&
       !isWaitFailureStep(step)
   );
+}
+
+function assertWhen(when) {
+  if (!POSSIBLE_WHENS.includes(when)) {
+    throw new Error(`"when: ${when}" is not recognized. Available when are "${POSSIBLE_WHENS}"`);
+  }
 }
 
 function hasWait(steps) {
@@ -212,7 +222,7 @@ function isCommandStep(step) {
 }
 
 function isPluginStep(step) {
-  return !isCommandStep() && step.hasOwnProperty('plugins');
+  return !isCommandStep(step) && step.hasOwnProperty('plugins');
 }
 
 function isParallelStep(step) {

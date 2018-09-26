@@ -17,9 +17,9 @@ function getSteps(content) {
 }
 
 function objToEnv(obj) {
-  return obj.post
-    .reduce((memo, item, index, obj) => {
-      Object.keys(item).forEach(key => memo[`${PREFIX}_${index}_${key.toUpperCase()}`] = obj[index][key]);
-      return memo;
-    }, {});
+  obj = obj || { post: [] };
+  return obj.post.reduce((memo, item, index, obj) => {
+    Object.keys(item).forEach(key => (memo[`${PREFIX}_${index}_${key.toUpperCase()}`] = obj[index][key]));
+    return memo;
+  }, {});
 }
