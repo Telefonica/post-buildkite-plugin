@@ -184,7 +184,10 @@ function getStageAtIndex(index, config) {
 
 function areSupportedSteps(steps) {
   return steps.every(
-    step => (isWaitStep(step) || isCommandStep(step) || isPluginStep()) && !isParallelStep(step) && !isWaitFailureStep()
+    step =>
+      (isWaitStep(step) || isCommandStep(step) || isPluginStep(step)) &&
+      !isParallelStep(step) &&
+      !isWaitFailureStep(step)
   );
 }
 
@@ -201,17 +204,17 @@ function isWaitStep(step) {
 }
 
 function isWaitFailureStep(step) {
-  return 'wait' in step;
+  return step.hasOwnProperty('wait');
 }
 
 function isCommandStep(step) {
-  return 'command' in step;
+  return step.hasOwnProperty('command');
 }
 
 function isPluginStep(step) {
-  return !isCommandStep() && 'plugins' in step;
+  return !isCommandStep() && step.hasOwnProperty('plugins');
 }
 
 function isParallelStep(step) {
-  return 'parallelism' in step;
+  return step.hasOwnProperty('parallelism');
 }
