@@ -1,6 +1,6 @@
 {
   "name": "post-buildkite-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Post jobs recovery buildkite plugin",
   "main": "index.js",
   "bin": {
