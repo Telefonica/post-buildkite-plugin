@@ -19,7 +19,7 @@ The following pipeline will execute `annotate.sh`, wait for completion, and then
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.0:
+      telefonica/post#0.1.1:
         post:
           - when: failure
             # steps is a string, note the `|`
@@ -57,7 +57,7 @@ This **does not** work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.0:
+      telefonica/post#0.1.1:
         post:
           - when: failure
             steps: |
@@ -75,7 +75,7 @@ This work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.0:
+      telefonica/post#0.1.1:
         post:
           - when: failure
             steps: |
