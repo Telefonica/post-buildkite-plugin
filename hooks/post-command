@@ -28,5 +28,5 @@ pipeline=$(get_pipeline $post_type)
 if [ -n "$pipeline" ]; then
   echo "Uploading new pipeline"
   echo "$pipeline"
-  echo "$pipeline" | buildkite-agent pipeline upload  > /dev/null 2>&1
+  echo "$pipeline" | buildkite-agent pipeline upload
 fi
