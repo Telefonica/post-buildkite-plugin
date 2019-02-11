@@ -19,18 +19,18 @@ The following pipeline will execute `annotate.sh`, wait for completion, and then
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.1:
-        post:
-          - when: failure
-            # steps is a string, note the `|`
-            steps: |
-              - command: email.sh
-              - wait
-              - command: clenaup.sh
-          - when: success
-            # steps is a string, note the `|`
-            steps: |
-              - command: slack.sh
+      - telefonica/post#0.1.1:
+          post:
+            - when: failure
+              # steps is a string, note the `|`
+              steps: |
+                - command: email.sh
+                - wait
+                - command: clenaup.sh
+            - when: success
+              # steps is a string, note the `|`
+              steps: |
+                - command: slack.sh
 ```
 
 ## How it works
@@ -57,14 +57,14 @@ This **does not** work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.1:
-        post:
-          - when: failure
-            steps: |
-              - command: annotate.sh
-              - command: email.sh
-              - wait
-              - command: clenaup.sh
+      - telefonica/post#0.1.1:
+          post:
+            - when: failure
+              steps: |
+                - command: annotate.sh
+                - command: email.sh
+                - wait
+                - command: clenaup.sh
 ```
 
 But are allowed when not using `wait`
@@ -75,13 +75,13 @@ This work
 steps:
   - command: test.sh
     plugins:
-      telefonica/post#0.1.1:
-        post:
-          - when: failure
-            steps: |
-              - command: annotate.sh
-              - command: email.sh
-              - command: clenaup.sh
+      - telefonica/post#0.1.1:
+          post:
+            - when: failure
+              steps: |
+                - command: annotate.sh
+                - command: email.sh
+                - command: clenaup.sh
 ```
 
 ## License
