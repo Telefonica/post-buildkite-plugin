@@ -36,7 +36,7 @@ steps:
 ## How it works
 
 The plugin evaluates the `command` exit code, (via `post-command` hook) and starts
-adding one step after another dinamically using `buildkite-agent pipeline upload`
+adding one step after another dynamically using `buildkite-agent pipeline upload`
 
 When adding a pipeline dynamically, it's executed by buildkite
 directly after the step that added it.
